@@ -1,0 +1,24 @@
+{
+  "name": "Wango-react-dnd",
+  "productName": "Wango React DnD",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "watch": "watchify app/app.js -t babelify -o public/js/bundle.js --debug --verbose"
+  },
+  "author": "Bryant Wang, Chris Wingo",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.16.2",
+    "jquery": "^3.2.1",
+    "react": "^15.6.0",
+    "react-autocomplete": "^1.0.0-rc2",
+    "react-dom": "^15.6.0"
+  },
+  "devDependencies": {
+    "babel-preset-env": "^1.5.2",
+    "babel-preset-react": "^6.24.1",
+    "babelify": "^7.3.0"
+  }
+}
