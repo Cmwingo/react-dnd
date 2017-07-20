@@ -1,5 +1,6 @@
 import React from 'react';
 import Axios from 'axios';
+import CharClassDetail from '../components/charClassDetail.component'
 
 class AppContainer extends React.Component {
 
@@ -55,6 +56,7 @@ class CharCreater extends React.Component {
     super(props);
     this.state = {
       classes: [],
+      characterClass: [],
       value: 'barbarian'
     };
     this.handleChange = this.handleChange.bind(this);
@@ -73,7 +75,17 @@ class CharCreater extends React.Component {
     .catch(error => {
       console.log(error);
     });
+    console.log('State value: ' + this.state.value);
+    Axios.get('http://dnd5eapi.co/api/classes/' + this.state.value)
+    .then(response => {
+      console.log(response);
+      this.setState({characterClass: response.data});
+    })
+    .catch(error => {
+      console.log(error);
+    });
   }
+
   render() {
     return (
       <div>
@@ -87,6 +99,7 @@ class CharCreater extends React.Component {
           </select>
         </label>
         <p>You have selected {this.state.value}</p>
+        <CharClassDetail data={this.state.characterClass} />
       </div>
     );
   }
