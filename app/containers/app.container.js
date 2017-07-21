@@ -64,6 +64,15 @@ class CharCreater extends React.Component {
 
   handleChange(e) {
     this.setState({value: e.target.value});
+    console.log('e' + e.target.value);
+    Axios.get('http://dnd5eapi.co/api/classes/' + e.target.value.toLowerCase())
+    .then(response => {
+      console.log(response);
+      this.setState({characterClass: response.data});
+    })
+    .catch(error => {
+      console.log(error);
+    });
   }
 
   componentDidMount() {
@@ -99,7 +108,7 @@ class CharCreater extends React.Component {
           </select>
         </label>
         <p>You have selected {this.state.value}</p>
-        <CharClassDetail data={this.state.characterClass} />
+        <CharClassDetail data={this.state.characterClass} proficiencies={this.state.characterClass.proficiencies}/>
       </div>
     );
   }
