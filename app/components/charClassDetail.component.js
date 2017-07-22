@@ -5,20 +5,18 @@ class CharClassDetail extends React.Component {
     let charData = this.props.data;
     let hitDie = this.props.data.hit_die;
     let proficiencies = this.props.proficiencies;
-    if(typeof proficiencies != 'undefined') {
-      console.log(typeof charData);
-      proficiencies = this.props.proficiencies.map(pros => {
-        return pros.name
-      })
-    }
+
     return (
       <div>
         <h1>Import Works!</h1>
         <h5>Hit Die: {hitDie} </h5>
-        <h5>
-          Proficiencies: {this.proficiencies}
+        <ul>
+          Proficiencies: {this.props.proficiencies.map(function(pros,i) {
+            console.log("i" + i);
+            return <li key={i}>{pros.name}</li>;
+          })}
 
-        </h5>
+        </ul>
       </div>
     );
   }

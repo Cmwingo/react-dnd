@@ -57,6 +57,7 @@ class CharCreater extends React.Component {
     this.state = {
       classes: [],
       characterClass: [],
+      proficiencies: [],
       value: 'barbarian'
     };
     this.handleChange = this.handleChange.bind(this);
@@ -68,7 +69,10 @@ class CharCreater extends React.Component {
     Axios.get('http://dnd5eapi.co/api/classes/' + e.target.value.toLowerCase())
     .then(response => {
       console.log(response);
-      this.setState({characterClass: response.data});
+      this.setState({
+        characterClass: response.data,
+        proficiencies: response.data.proficiencies
+      });
     })
     .catch(error => {
       console.log(error);
@@ -88,7 +92,11 @@ class CharCreater extends React.Component {
     Axios.get('http://dnd5eapi.co/api/classes/' + this.state.value)
     .then(response => {
       console.log(response);
-      this.setState({characterClass: response.data});
+      this.setState({
+        characterClass: response.data,
+        proficiencies: response.data.proficiencies
+      });
+      console.log('proficiencies:' + response.data.proficiencies);
     })
     .catch(error => {
       console.log(error);
@@ -108,7 +116,7 @@ class CharCreater extends React.Component {
           </select>
         </label>
         <p>You have selected {this.state.value}</p>
-        <CharClassDetail data={this.state.characterClass} proficiencies={this.state.characterClass.proficiencies}/>
+        <CharClassDetail data={this.state.characterClass} proficiencies={this.state.proficiencies}/>
       </div>
     );
   }
