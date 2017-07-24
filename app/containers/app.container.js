@@ -36,7 +36,6 @@ class AppContainer extends React.Component {
         <div id="response" ref='response'>
           <ul>
             {this.state.classes.map(function(charClass,i) {
-              console.log("i" + i);
               return <li key={i}>{charClass.name}</li>;
             })}
           </ul>
@@ -58,6 +57,8 @@ class CharCreater extends React.Component {
       classes: [],
       characterClass: [],
       proficiencies: [],
+      saveThrows: [],
+      subClasses: [],
       value: 'barbarian'
     };
     this.handleChange = this.handleChange.bind(this);
@@ -71,7 +72,9 @@ class CharCreater extends React.Component {
       console.log(response);
       this.setState({
         characterClass: response.data,
-        proficiencies: response.data.proficiencies
+        proficiencies: response.data.proficiencies,
+        saveThrows: response.data.saving_throws,
+        subClasses: response.data.subclasses
       });
     })
     .catch(error => {
@@ -88,15 +91,16 @@ class CharCreater extends React.Component {
     .catch(error => {
       console.log(error);
     });
-    console.log('State value: ' + this.state.value);
     Axios.get('http://dnd5eapi.co/api/classes/' + this.state.value)
     .then(response => {
       console.log(response);
       this.setState({
         characterClass: response.data,
-        proficiencies: response.data.proficiencies
+        proficiencies: response.data.proficiencies,
+        saveThrows: response.data.saving_throws,
+        subClasses: response.data.subclasses
       });
-      console.log('proficiencies:' + response.data.proficiencies);
+      console.log('subclasses:' + response.data.subclasses[0].name);
     })
     .catch(error => {
       console.log(error);
@@ -116,7 +120,7 @@ class CharCreater extends React.Component {
           </select>
         </label>
         <p>You have selected {this.state.value}</p>
-        <CharClassDetail data={this.state.characterClass} proficiencies={this.state.proficiencies}/>
+        <CharClassDetail data={this.state.characterClass} proficiencies={this.state.proficiencies} saveThrows={this.state.saveThrows} subClasses={this.state.subClasses}/>
       </div>
     );
   }
