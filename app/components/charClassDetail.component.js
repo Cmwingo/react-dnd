@@ -5,7 +5,6 @@ class CharClassDetail extends React.Component {
     let charData = this.props.data;
     let hitDie = this.props.data.hit_die;
     let proficiencies = this.props.proficiencies;
-    console.log(this.props.subClasses);
 
     return (
       <div>

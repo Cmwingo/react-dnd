@@ -59,9 +59,12 @@ class CharCreater extends React.Component {
       proficiencies: [],
       saveThrows: [],
       subClasses: [],
+      proficiencyChoices: [],
+      chosenProficiencies: [],
       value: 'barbarian'
     };
     this.handleChange = this.handleChange.bind(this);
+    this.handleProfChange = this.handleProfChange.bind(this);
   }
 
   handleChange(e) {
@@ -74,12 +77,25 @@ class CharCreater extends React.Component {
         characterClass: response.data,
         proficiencies: response.data.proficiencies,
         saveThrows: response.data.saving_throws,
-        subClasses: response.data.subclasses
+        subClasses: response.data.subclasses,
+        proficiencyChoices: response.data.proficiency_choices[0].from,
       });
     })
     .catch(error => {
       console.log(error);
     });
+  }
+
+  handleProfChange(e) {
+    var choices = e.target.options;
+    var values = [];
+    for (var i=0; i < choices.length; i++) {
+      if (choices[i].selected) {
+        values.push(choices[i].value);
+      }
+    }
+    this.setState({ chosenProficiencies: values });
+    console.log(values);
   }
 
   componentDidMount() {
@@ -98,16 +114,26 @@ class CharCreater extends React.Component {
         characterClass: response.data,
         proficiencies: response.data.proficiencies,
         saveThrows: response.data.saving_throws,
-        subClasses: response.data.subclasses
+        subClasses: response.data.subclasses,
+        proficiencyChoices: response.data.proficiency_choices[0].from
       });
-      console.log('subclasses:' + response.data.subclasses[0].name);
     })
     .catch(error => {
       console.log(error);
     });
   }
 
+  componentDidUpdate() {
+    console.log(this.state.chosenProficiencies);
+  }
+
   render() {
+    let choicesDisplay = null;
+    if(this.state.chosenProficiencies != undefined) {
+      choicesDisplay = "choices";
+    } else {
+      choicesDisplay = "no choices";
+    }
     return (
       <div>
         <h1>Char Creater Component Works!</h1>
@@ -120,7 +146,20 @@ class CharCreater extends React.Component {
           </select>
         </label>
         <p>You have selected {this.state.value}</p>
-        <CharClassDetail data={this.state.characterClass} proficiencies={this.state.proficiencies} saveThrows={this.state.saveThrows} subClasses={this.state.subClasses}/>
+          <label>Proficiency Choices:
+            <select multiple label= "Proficiency Choices" value={this.state.chosenProficiencies} onChange={this.handleProfChange}>
+              {this.state.proficiencyChoices.map(function(profChoice,i) {
+                return <option value={profChoice.name} key={i}>{profChoice.name}</option>;
+              })}
+            </select>
+          </label>
+          {choicesDisplay}
+          <br />
+        <CharClassDetail
+          data={this.state.characterClass}
+          proficiencies={this.state.proficiencies}
+          saveThrows={this.state.saveThrows}
+          subClasses={this.state.subClasses}/>
       </div>
     );
   }
