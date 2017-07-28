@@ -34,6 +34,14 @@ class CharClassDetail extends React.Component {
             })}
           </ul>
         </fieldset>
+        <fieldset>
+          <legend>Starting Equipment: </legend>
+          <ul>
+            {this.props.startingEquipment.map(function(se,i) {
+              return <li key={i}>{se.item.name}</li>;
+            })}
+          </ul>
+        </fieldset>
       </div>
     );
   }

@@ -61,6 +61,7 @@ class CharCreater extends React.Component {
       subClasses: [],
       proficiencyChoices: [],
       chosenProficiencies: [],
+      startingEquipment: [],
       value: 'barbarian'
     };
     this.handleChange = this.handleChange.bind(this);
@@ -73,6 +74,17 @@ class CharCreater extends React.Component {
     Axios.get('http://dnd5eapi.co/api/classes/' + e.target.value.toLowerCase())
     .then(response => {
       console.log(response);
+      //Retrieve Starting Equipment from separate API endpoint
+      Axios.get(response.data.starting_equipment.url)
+      .then(response => {
+        console.log(response);
+        this.setState({
+          startingEquipment: response.data.starting_equipment
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
       this.setState({
         characterClass: response.data,
         proficiencies: response.data.proficiencies,
@@ -110,6 +122,17 @@ class CharCreater extends React.Component {
     Axios.get('http://dnd5eapi.co/api/classes/' + this.state.value)
     .then(response => {
       console.log(response);
+      //Retrieve Starting Equipment from separate API endpoint
+      Axios.get(response.data.starting_equipment.url)
+      .then(response => {
+        console.log(response);
+        this.setState({
+          startingEquipment: response.data.starting_equipment
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
       this.setState({
         characterClass: response.data,
         proficiencies: response.data.proficiencies,
@@ -147,7 +170,7 @@ class CharCreater extends React.Component {
         </label>
         <p>You have selected {this.state.value}</p>
           <label>Proficiency Choices:
-            <select multiple label= "Proficiency Choices" value={this.state.chosenProficiencies} onChange={this.handleProfChange}>
+            <select multiple value={this.state.chosenProficiencies} onChange={this.handleProfChange}>
               {this.state.proficiencyChoices.map(function(profChoice,i) {
                 return <option value={profChoice.name} key={i}>{profChoice.name}</option>;
               })}
@@ -159,7 +182,8 @@ class CharCreater extends React.Component {
           data={this.state.characterClass}
           proficiencies={this.state.proficiencies}
           saveThrows={this.state.saveThrows}
-          subClasses={this.state.subClasses}/>
+          subClasses={this.state.subClasses}
+          startingEquipment={this.state.startingEquipment}/>
       </div>
     );
   }
