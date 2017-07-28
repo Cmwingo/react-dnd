@@ -31,7 +31,12 @@ class CharCreater extends React.Component {
       Axios.get(response.data.starting_equipment.url)
       .then(response => {
         console.log(response);
+        var choices = [];
+        for(i=0; i<response.data.choices_to_make; i++) {
+          choices.push(response.data[i]);
+        }
         this.setState({
+          equipmentChoices: choices,
           startingEquipment: response.data.starting_equipment
         });
       })
@@ -79,7 +84,15 @@ class CharCreater extends React.Component {
       Axios.get(response.data.starting_equipment.url)
       .then(response => {
         console.log(response);
+        var choices = [];
+        for(var i = 0; i < response.data.choices_to_make; i++) {
+          var choiceNumber = "choice_" + (i+1);
+          choices.push(response.data[choiceNumber]);
+          console.log("choice" + i + ":" + response.data[choiceNumber]);
+        }
+        console.log("choices:" + choices);
         this.setState({
+          equipmentChoices: choices,
           startingEquipment: response.data.starting_equipment
         });
       })
@@ -110,6 +123,7 @@ class CharCreater extends React.Component {
     } else {
       choicesDisplay = "no choices";
     }
+    console.log("eq choices: " + this.state.equipmentChoices);
     return (
       <div>
         <h1>Char Creater Component Works!</h1>
