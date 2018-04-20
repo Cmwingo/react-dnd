@@ -1,2 +1,8 @@
 /node_modules
 bundle.js
+
+# Rubymine files
+.idea/
+
+# Mac OS file
+.DS_Store
